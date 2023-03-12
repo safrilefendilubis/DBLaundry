@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <div>
+            <label th:text="${paramOne}?:'DEFAULT PARAMONE NULL'"/>
+        </div>
+        <div>
+            <label th:text="${paramTwo} ? 'PARAMTWO IS NULL' : 'PARAMTWO NOT NULL'"/>
+        </div>
+            <div>
+                <label th:if="${ifCondition == null}">KONDISI IF == NULL</label>
+            </div>
+            <div>
+                <label th:if="${ifCondition != null}">KONDISI IF != NULL</label>
+            </div>
+            <div>
+                <label th:if="${ifCondition != null}">KONDISI IF != NULL</label>
+            </div>
+            <div>
+                <label th:unless="${unlessCondition == null}">KONDISI UNLESS == NULL</label>
+            </div>
+            <div>
+                <label th:unless="${unlessCondition != null}">KONDISI UNLESS != NULL</label>
+            </div>
+
+            <td th:switch="${#lists.size(listContentz)}"><!--ini adalah cara mengambil size dari attribut listContentz yang di set di server-->
+                <span th:case="'0'">LIST KOSONG</span>
+                <span th:case="'1'" th:text="${listContentz[0]}+'-- LIST SIZE NYA 1 SAJA'"></span>
+                <div th:case="*">
+                    <div th:each="contentList:${listContentz}" th:text="${contentList}"/>
+                </div>
+            </td>
+            <div>
+                <label th:text="${#strings.equalsIgnoreCase(userName,#strings.toUpperCase(userName))}+' --- PRINT KONDISI DENGAN FUNGSI STRING'" />
+            </div>
+            <div th:switch="${userName}"><!--ini isi nya compare string saja dengan switch-->
+                <span th:case="'paul'">ISI STRING PAUL</span>
+                <span th:case="'paulo'" th:text="${userName}+'-- ADALAH ISI VARIABEL USERNAME'"></span>
+                <div th:case="*">
+                    <div th:text="'SELAIN DARI PAUL DAN PAULO'"></div>
+                </div>
+            </div>
+            <div th:switch="${#strings.toLowerCase(userName)}"><!--ini isi nya compare string saja dengan switch-->
+                <span th:case='paul'>ISI STRING PAUL HANYA HURUF KECIL</span>
+                <span th:case='paulo' th:text="${userName}+'-- ADALAH ISI VARIABEL USERNAME -> LOWERCASE'"></span>
+                <div th:case="*">
+                    <div th:text="'SELAIN DARI paul DAN paulo'"></div>
+                </div>
+            </div>
+
+            <div th:switch="${#strings.toUpperCase(userName)}"><!--ini isi nya compare string saja dengan switch-->
+                <div th:case="null">
+                    <div th:text="'ISINYA NULL'"></div>
+                </div>
+                <span th:case='PAUL'>ISI STRING PAUL HANYA HURUF BESAR</span>
+                <span th:case='PAULO' th:text="${userName}+'-- ADALAH ISI VARIABEL USERNAME -> UPPERCASE'"></span>
+                <div th:case="*">
+                    <div th:text="'SELAIN DARI PAUL DAN PAULO'"></div>
+                </div>
+            </div>
+
+        <div>
+            <button>CUMIX</button>
+        </div>
+<ul th:each="childArrays,setIndex:${AKZEZ}" >
+    <a href="#" th:text="${AKZEZ.get(setIndex.index).strStringTestwo}"/>
+        <li th:each="childElement:${childArrays.listMenu}">
+            <a th:href="@{${childElement.linkSubMenu}}" th:text="${childElement.linkSubMenu}"/>
+        </li>
+</ul>
+
+        <ul th:each="childArrays:${data.get('content')}" >
+                <li th:text="${childArrays.strStringTestwo}"/>
+        </ul>
+
+<!--        <ul th:each="childArrays:${data.get('searchParam')}" >-->
+<!--            <th:block th:each="${childElement:childArrays.value}"/>-->
+<!--            <li th:text="${childArrays.key}"/>-->
+<!--            <li th:text="${childArrays.value}"/>-->
+<!--            <th:block th:text="$(childArrays.get('currentPage')"/>-->
+<!--        </ul>-->
+
+        <select name="columnFirst"
+                class="size-select"
+                id="columnFirst">
+            <option
+                    selected="setSelectValue('cumix',${childArrays.key})"
+                    th:each="childArrays:${data.get('searchParam')}"
+                    th:value="${childArrays.key}"
+                    th:text="${childArrays.value}" th:selected="${s == columnFirst}"></option>
+        </select>
+
+        <div>
+            <label id="cumix"/>
+        </div>
+
+<!--        ${totalItems}-->
+<!--        ${numberOfElements}-->
+<!--        ${searchParam.get('path')}-->
+<!--        ${searchParam.get('nama')}-->
+<!--        ${searchParam.get('point')}-->
+
+<!--        ${sort.strStringTestThree}-->
+<!--        ${sort.namaSubMenu}-->
+<!--        ${sort.idSubMenu}-->
+<!--        ${sort.linkSubMenu}-->
+<!--        ${content.get(0).strStringTestwo}-->
+<!--        th:each="varX.varY : content" ${varX.get(varY.index).strStringTestwo}"-->
+
+
+
+        <div>
+            <th:block th:text="'INI STR STRING THREE : '+${data.sort.strStringTestThree}"></th:block>
+        </div>
+
+<!--        for(int i=0;i<listUser.size();i++)-->
+<!--        {-->
+<!--        listUser.get(i).getAkses().getNamaAkses();-->
+<!--        listUser.get(i).getAkses().getDivisi().getNamaDivisi();-->
+<!--        listUser.get(i).getAkses().getListMenuAkses().get(i).getMenuHeader().getNamaMenuHeader();-->
+
+<!--        }-->
+<!--        <th:block th:each="x,y:${data.get('listUser')}"></th:block>-->
+<!--                <th:blok th:text="x.get(y.index).akses.namaAkses"></th:blok>-->
+<!--                <th:blok th:text="x.get(y.index).akses.divisi.namaDivisi"></th:blok>-->
+<!--                <th:blok th:text="x.get(y.index).akses.listMenuAkses.menuheader.namaMenuHeader"></th:blok>-->
+
+        <div>
+            <th:block th:text="'INI NAMA SUB MENU : '+${data.sort.namaSubMenu}"></th:block>
+        </div>
+        <div>
+            <th:block th:text="'INI LINK SUBMENU : '+${data.sort.linkSubMenu}"></th:block>
+        </div>
+
+        <div>
+            <th:block th:text="'INI TOTAL ITEMS : '+${data.totalItems}"></th:block>
+        </div>
+        <div>
+            <th:block th:text="'INI TOTAL NUMBER OF ELEMENTS : '+${data.numberOfElements}"></th:block>
+        </div>
+        <div>
+            <th:block th:text="'INI PATH : '+${data.searchParam.get('path')}"></th:block>
+        </div>
+
+        <div>
+            <th:block th:text="'INI NAMA : '+${data.searchParam.get('nama')}"></th:block>
+        </div>
+
+        <div>
+            <th:block th:text="'INI POINT : '+${data.searchParam.get('point')}"></th:block>
+        </div>
+
+        <script>
+            function setSelectValue (id, val) {
+                document.getElementById(id).value = val;
+            }
+        </script>
+
+    <table>
+        <thead>
+            <tr>
+                <th th:each="f:${arrTitle}" th:text="${f}"/>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="k:${arr}" >
+                <td th:each="l:${k}">
+                    <span th:text="${l}"></span >
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

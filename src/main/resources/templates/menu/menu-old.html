@@ -1,0 +1,171 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--<meta charset="ISO-8859-1">-->
+<!--<title>Employee Management System</title>-->
+<!--	<link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" />-->
+<!--	<script type="text/javascript" src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+<!--	<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>-->
+<!--	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<!--	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>-->
+<!--	<link th:href="@{/styles/style.css}" rel="stylesheet" />-->
+<!--	<link th:href="@{/styles/navbar.css}" rel="stylesheet" />-->
+<!--	<link th:href="@{/styles/banner.css}" rel="stylesheet" />-->
+<!--	<script th:src="@{/js/modalz.js}"></script>-->
+<!--	<script th:src="@{/js/action.js}"></script>-->
+<!--	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
+<!--	<title>MENU</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:replace="header/navheader::navapalah"></div>-->
+<!--<div class="my-3">-->
+
+<!--	<form th:action="@{/api/usrmgmnt/v1/menu/fbpsb/{size}/{page}/{sort}/{sortBy}?columnFirst={colFirst}-->
+<!--	&valueFirst={valFirst}-->
+<!--	 (size=${data.get('numberOfElements')},-->
+<!--	page=${data.get('currentPage')},-->
+<!--	sort='asc',-->
+<!--	sortBy=${sortBy},-->
+<!--	colFirst=${columnFirst},-->
+<!--	valFirst=${valueFirst})}"-->
+<!--		  id="itemSizeForm">-->
+<!--		<div class="row d-flex">-->
+<!--			<div class="col-md-3 input-group mt-2">-->
+<!--				<div class="input-group-prepend">-->
+<!--					<label class="input-group-text" for="columnFirst">Kolom : </label>-->
+<!--				</div>-->
+<!--				<select name="columnFirst" th:value="${columnFirst}" class="size-select"-->
+<!--						id="columnFirst">-->
+<!--					<option-->
+<!--							selected="setSelectValue('columnFirst',${childArrays.value})"-->
+<!--							th:each="childArrays:${data.get('searchParam')}"-->
+<!--							th:value="${childArrays.key}"-->
+<!--							th:text="${childArrays.value}"-->
+<!--							th:selected="${childArrays == columnFirst}"></option>-->
+<!--				</select>-->
+<!--			</div>-->
+<!--			<div class="col-md-6 mt-2">-->
+<!--				<div class="search">-->
+<!--					<i class="fa fa-search"></i>-->
+<!--					<input id="valueFirst" type="search" name="valueFirst" th:value="${valueFirst}" required class="form-control"-->
+<!--						   placeholder="Masukkan Data">-->
+<!--					<button type="submit" class="btn btn-secondary">Search</button>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--			<div class="col-md-3 input-group mt-2">-->
+<!--				<div class="input-group-prepend">-->
+<!--					<label class="input-group-text" for="sizeComponent">Items per page:</label>-->
+<!--				</div>-->
+<!--				<select form="itemSizeForm" name="sizeComponent" th:value="${data.get('numberOfElements')}"-->
+<!--						onchange="changePageSize()" class="size-select"-->
+<!--						id="sizeComponent">-->
+<!--					<option th:each="s : ${ {5, 10, 15,20,25,30} }"-->
+<!--							th:value="${s}"-->
+<!--							th:text="${s}"-->
+<!--							th:selected="${s == sizeComponent}"></option>-->
+<!--				</select>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</form>-->
+<!--</div>-->
+<!--	<div class="container my-2">-->
+<!--	<h5>Menu List</h5>-->
+
+<!--		<a href = "#"-->
+<!--		   th:data-title="'Add MENU'" onclick="funcHandler(event)"-->
+<!--		   th:data-url="'/api/usrmgmnt/v1/menu/new'"-->
+<!--		   data-target="#addMenu"-->
+<!--		   class="btn btn-primary btn-sm mb-3"> Add Menu </a>-->
+
+<!--		<th:block th:if="${#lists.size(data.get('content')) != 0}"/>-->
+<!--		<table border="1" class = "table table-striped table-responsive-md">-->
+<!--			<thead class="table-dark">-->
+<!--				<tr>-->
+<!--					<th>-->
+<!--&lt;!&ndash;						<a class="text-light" th:href="@{'/page/' + ${currentPage} + '/?sortField=firstName&sortDir=' + ${reverseSortDir}}">&ndash;&gt;-->
+<!--						<a class="text-light" th:href="'#'"/>-->
+<!--&lt;!&ndash;						   						th:href="@{'/page/'&ndash;&gt;-->
+<!--&lt;!&ndash;												+ ${numberOfElements}&ndash;&gt;-->
+<!--&lt;!&ndash;												+ '/'&ndash;&gt;-->
+<!--&lt;!&ndash;												+ ${data.get('currentPage')}&ndash;&gt;-->
+<!--&lt;!&ndash;												+ '/'&ndash;&gt;-->
+<!--&lt;!&ndash;												+ ${data.get('sort')}&ndash;&gt;-->
+<!--&lt;!&ndash;												+ '/'&ndash;&gt;-->
+<!--&lt;!&ndash;												+ ${sortField}&ndash;&gt;-->
+<!--&lt;!&ndash;												+ '?columnFirst='&ndash;&gt;-->
+<!--&lt;!&ndash;												+ ${columnFirst}&ndash;&gt;-->
+<!--&lt;!&ndash;												+ '&valueFirst='&ndash;&gt;-->
+<!--&lt;!&ndash;												+ ${valueFirst}">&lt;!&ndash; url/5/0/10&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;						<a class="text-light" href="#">&lt;!&ndash; url/5/0/10&ndash;&gt;&ndash;&gt;-->
+<!--							ID</a>-->
+<!--					</th>-->
+<!--					<th>-->
+<!--&lt;!&ndash;						<a class="text-light" th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">&ndash;&gt;-->
+<!--							<a class="text-light" th:href="@{'/page/'+ ${size} + '/' + ${currentPage} + '/asc/nama'}">&lt;!&ndash; url/5/0/10&ndash;&gt;-->
+<!--							Nama Menu</a>-->
+<!--					</th>-->
+<!--					<th>-->
+<!--&lt;!&ndash;					<a class="text-light" th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">&ndash;&gt;-->
+<!--						<a class="text-light" th:href="@{'/page/'+ ${size} + '/' + ${currentPage} + '/asc/pathz'}">&lt;!&ndash; url/5/0/10&ndash;&gt;-->
+<!--							Employee Last Name</a>-->
+<!--					</th>-->
+<!--					<th>-->
+<!--&lt;!&ndash;					<a class="text-light" th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">&ndash;&gt;-->
+<!--						<a class="text-light" th:href="@{'/page/'+ ${size} + '/' + ${currentPage} + '/asc/point'}">&lt;!&ndash; url/5/0/10&ndash;&gt;-->
+<!--							Employee Email</a>-->
+<!--					</th>-->
+<!--					<th> Actions </th>-->
+<!--				</tr>-->
+<!--			</thead>-->
+<!--			<tbody>-->
+<!--&lt;!&ndash;				<th:block th:each="childArrays : ${data.get('content')}">&ndash;&gt;-->
+<!--				<tr th:each="childEntity : ${data.get('content')}">-->
+<!--					<td th:text="${childEntity.idMenu}"></td>-->
+<!--					<td th:text="${childEntity.namaMenu}"></td>-->
+<!--					<td th:text="${childEntity.pathMenu}"></td>-->
+<!--					<td th:text="${childEntity.endPoint}"></td>-->
+<!--&lt;!&ndash;					<td> <a th:href="@{/api/showFormForUpdate/{id}(id=${employee.idEmployee})}" class="btn btn-primary">Update</a>&ndash;&gt;-->
+<!--					<td>-->
+<!--&lt;!&ndash;						<button type="button"&ndash;&gt;-->
+<!--&lt;!&ndash;								th:data-title="'Edit Menu'" onclick="funcHandler(event)"&ndash;&gt;-->
+<!--&lt;!&ndash;								th:data-url="'/api/usrmgmnt/v1/menu/edit'+${childEntity.idMenu}"&ndash;&gt;-->
+<!--&lt;!&ndash;								class="btn btn-primary" data-toggle="modal" data-target="#editMenu"/>&ndash;&gt;-->
+<!--							<a th:href = "'#'"-->
+<!--							th:data-title="'Edit Menu'" onclick="funcHandler(event)"-->
+<!--							th:data-url="'/api/usrmgmnt/v1/menu/edit'+${childEntity.idMenu}"-->
+<!--							data-target="#editMenu"-->
+<!--							class="btn btn-primary btn-sm mb-3"> Edit Menu </a>-->
+<!--					    <a th:href="@{/api/deleteEmployee/{id}(id=${menu.idMenu})}" class="btn btn-danger">Delete</a>-->
+<!--					</td>-->
+<!--				</tr>-->
+<!--			</tbody>-->
+<!--		</table>-->
+<!--		-->
+<!--		<div th:if = "${totalPages > 1}">-->
+<!--			<div class = "row col-sm-10">-->
+<!--				<div class = "col-sm-2">-->
+<!--					Total Rows: [[${data.get('totalItems')}]]-->
+<!--				</div>-->
+<!--				<div class = "col-sm-1">-->
+<!--					<span th:each="i: ${#numbers.sequence(1, ${data.get('totalPages')})}">-->
+<!--						<a th:if="${data.get('currentPage') != i}" th:href="@{'/api/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
+<!--						<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;-->
+<!--					</span>-->
+<!--				</div>-->
+<!--				<div class = "col-sm-1">-->
+<!--					<a th:if="${currentPage < totalPages}" th:href="@{'/api/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
+<!--					<span th:unless="${currentPage < totalPages}">Next</span>-->
+<!--				</div>-->
+<!--				-->
+<!--				 <div class="col-sm-1">-->
+<!--    				<a th:if="${currentPage < totalPages}" th:href="@{'/api/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+<!--					<span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--   				 </div>-->
+<!--			</div>-->
+
+<!--		</div>-->
+<!--	</div>-->
+<!--<th:block th:replace="modals :: modalz('addMenu')">modal</th:block>-->
+<!--<th:block th:replace="modals :: modalz('editMenu')">modal</th:block>-->
+<!--</body>-->
+<!--</html>-->

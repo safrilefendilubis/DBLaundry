@@ -1,0 +1,73 @@
+<form th:action="@{/api/usrmgmnt/v1/menuheader/new}" th:object = "${menuHeader}" method="POST" id="buatMenuHeader"><!--	ID FORM TIDAK BOLEH SAMA DENGAN ID MODALS DI FRAGMENT -->
+	<input type="hidden" value="cfede1e2dee1b94728831ca46e4f4758" /><!-- form generate id security of front end -->
+
+	<div th:if="${#fields.hasErrors('global')}" class="error-box error-danger" >
+		<p th:each="err : ${#fields.errors('global')}" th:text="${err}"  class="error"/>
+	</div>
+	<div class ="form-group">
+		<label> Nama Menu </label>
+		<input
+				type = "text"
+				name = "namaMenuHeader"
+				th:field = "*{namaMenuHeader}"
+				class = "form-control"
+				placeholder="Masukkan Nama Group"
+		/>
+		<ul>
+			<li th:each="err : ${#fields.errors('namaMenuHeader')}" th:text="${err}" class="error" />
+		</ul>
+	</div>
+
+	</div>
+	<div class ="form-group">
+		<label> Deskripsi Group </label>
+		<input
+				type = "text"
+				name = "deskripsiMenuHeader"
+				th:field = "*{deskripsiMenuHeader}"
+				class = "form-control"
+				placeholder="Masukkan Deskripsi"
+		/>
+		<ul>
+			<li th:each="err : ${#fields.errors('deskripsiMenuHeader')}" th:text="${err}" class="error" />
+		</ul>
+	</div>
+
+	<div class = "modal-footer">
+		<button type="submit" class = "btn btn-primary">
+			Submit
+		</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	</div>
+</form>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    $("#buatMenuHeader").submit(function(event) {
+          event.preventDefault(); //prevent default action
+          let post_url = $(this).attr("action"); //get form action url
+          let request_method = $(this).attr("method"); //get form GET/POST method
+          let form_data = $(this).serialize(); //Encode form elements for submission
+          $.ajax({
+              url: post_url,
+              type: request_method,
+              data: form_data
+            }).done(function(response) { //
+            let pattern = /cfede1e2dee1b94728831ca46e4f4758/i;
+			let result = response.match(pattern);
+            if(result)
+            {
+				$("#server-results").html(response);
+            }
+            else
+            {
+				$('#addMenuHeader').modal('hide');
+				confirm("DATA BERHASIL DISIMPAN");
+            }
+
+            });
+        });
+
+/*]]>*/
+</script>

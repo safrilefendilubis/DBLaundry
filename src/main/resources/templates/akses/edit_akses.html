@@ -1,0 +1,135 @@
+<form  th:action="@{/api/usrmgmnt/v1/akses/edit/{id} (id=${akses.idAkses})}" th:object = "${akses}" method="POST" id="ubahAkses"><!--	ID FORM TIDAK BOLEH SAMA DENGAN ID MODALS DI FRAGMENT -->
+	<input type="hidden" value="0794aafcad699b646ef1f1c660873d15" /><!-- form generate id security of front end -->
+
+	<div th:if="${#fields.hasErrors('global')}" class="error-box error-danger" >
+		<p th:each="err : ${#fields.errors('global')}" th:text="${err}"  class="error"/>
+	</div>
+	<div class ="form-group">
+		<label> Nama Akses </label>
+		<input
+				type = "text"
+				name = "namaAkses"
+				th:field = "*{namaAkses}"
+				class = "form-control"
+				placeholder="Masukkan Nama Akses"
+		/>
+		<ul>
+			<li th:each="err : ${#fields.errors('namaAkses')}" th:text="${err}" class="error" />
+		</ul>
+	</div>
+
+	<div class ="form-group">
+		<label> Divisi </label>
+		<select th:field="*{divisi.idDivisi}" class="form-control" name="list-divisi" th:object="${akses}" id="list-divisi" >
+			<option value="" selected="selected" disabled hidden="hidden">---pilih divisi---</option>
+			<option th:each="divs: ${listDivisi}" th:value="${divs.idDivisi}" th:text="${divs.namaDivisi}"></option>
+		</select>
+		<ul>
+			<li th:each="err : ${#fields.errors('divisi')}" th:text="${err}" class="error" />
+		</ul>
+	</div>
+
+<!--	<div class ="form-group">-->
+<!--		<label> Menu List </label>-->
+<!--				<label> Menu List </label>-->
+<!--				<input checked type="checkbox" name="listMenuAkses"-->
+<!--					   th:each="menuList: ${listMenu}"-->
+<!--					   th:text="${menuList.namaMenu}"-->
+<!--					   th:if="${menuSelected.contains(menuList)}"-->
+
+<!--					   th:if="${menuSelected.contains(menuList)}"-->
+<!--					   th:value="${menuList.idMenu}"-->
+<!--					   th:field="*{listMenuAkses}"-->
+<!--				/>-->
+<!--		<ul>-->
+<!--			<li th:each="err : ${#fields.errors('listMenuAkses')}" th:text="${err}" class="error" />-->
+<!--		</ul>-->
+<!--	</div>-->
+<!--	<div class="row">-->
+<!--		<div class="col-sm-6" th:each="service : ${services}">-->
+<!--			<div class="form-check">-->
+<!--				<input type="checkbox" name="listMenuAkses2"-->
+<!--					   th:each="menuList: ${listMenu}"-->
+<!--					   th:text="${menuList.namaMenu}"-->
+<!--					   th:unless="${menuSelected.contains(menuList)}"-->
+<!--					   th:value="${menuList.idMenu}"-->
+<!--				/>-->
+<!--				<input type="button" class="my_form-check-button" onClick="checkAll(true,'listMenuAkses2');" value="Check All" />-->
+<!--				<input type="button" class="my_form-check-button" onClick="checkAll(false,'listMenuAkses2');" value="Clear All" />-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--	th:checked="${menuSelected.contains(menuList)}"-->
+<!--	th:checked="${#lists.contains(menuList,akses.listMenuAkses)}"-->
+<!--	th:checked="${true}"-->
+	<!--					   name="listMenuAkses"-->
+	<h3>Menu List</h3>
+	<div class="grid-container">
+		<div class="grid-item" th:each="menuList: ${listMenu}">
+				<input type="checkbox"
+					   th:value="${menuList.idMenu}"
+					   th:name="listMenuAkses"
+					   id="listMenuAkses"
+				>
+			<label th:text="${menuList.namaMenu}"/>
+		</div>
+	</div>
+
+	<div>
+		<input type="checkbox" checked>TEST
+	</div>
+
+	<div>
+		<input type="button" class="my_form-check-button" onClick="checkAll(true,'listMenuAkses');" value="Check All" />
+		<input type="button" class="my_form-check-button" onClick="checkAll(false,'listMenuAkses');" value="Clear All" />
+	</div>
+
+	<div class = "modal-footer">
+		<button type="submit" class = "btn btn-primary">
+			Submit
+		</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	</div>
+</form>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+function checkAll(checkEm,divNames) {
+    var cbs = document.getElementsByTagName('input');
+    for (var i = 0; i < cbs.length; i++) {
+        if (cbs[i].type == 'checkbox') {
+            if (cbs[i].name == divNames) {
+                cbs[i].checked = checkEm;
+            }
+        }
+    }
+}
+
+    $("#ubahAkses").submit(function(event) {
+          event.preventDefault(); //prevent default action
+          let post_url = $(this).attr("action"); //get form action url
+          let request_method = $(this).attr("method"); //get form GET/POST method
+          let form_data = $(this).serialize(); //Encode form elements for submission
+          $.ajax({
+              url: post_url,
+              type: request_method,
+              data: form_data
+            }).done(function(response) { //
+            let pattern = /0794aafcad699b646ef1f1c660873d15/i;
+			let result = response.match(pattern);
+            if(result)
+            {
+				$("#server-results").html(response);
+            }
+            else
+            {
+				$('#editAkses').modal('hide');
+				confirm("DATA BERHASIL DIUBAH");
+            }
+
+            });
+        });
+
+/*]]>*/
+</script>

@@ -1,0 +1,44 @@
+<form  th:action="@{/api/school/v1/students/{id} (id=${student.id})}" th:object = "${student}" method="POST">
+	<div class ="form-group">
+		<label> Student First Name </label>
+		<input
+				type = "text"
+				name = "firstName"
+				id = "firstName"
+				th:field = "*{firstName}"
+				class = "form-control"
+				placeholder="Enter Student First Name"
+		/>
+	</div>
+
+	<div class ="form-group">
+		<label> Student Last Name </label>
+		<input
+				type = "text"
+				name = "lastName"
+				id = "lastName"
+				th:field = "*{lastName}"
+				class = "form-control"
+				placeholder="Enter Student Last Name"
+		/>
+	</div>
+
+	<div class ="form-group">
+		<label> Student Email </label>
+		<input
+				type = "text"
+				name = "email"
+				id = "email"
+				th:field = "*{email}"
+				class = "form-control"
+				placeholder="Enter Student Email"
+		/>
+	</div>
+
+	<div class = "modal-footer">
+		<button type="submit" class = "btn btn-primary">
+			Submit
+		</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	</div>
+</form>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+	<link th:href="@{/styles/navbar.css}" rel="stylesheet" />
+	<link th:href="@{/styles/banner.css}" rel="stylesheet" />
+	<link th:href="@{/styles/error.css}" rel="stylesheet" />
+	<script th:src="@{/js/modalz.js}"></script>
+	<script th:src="@{/js/action.js}"></script>
+	<title>GROUP MENU</title>
+</head>
+<body>
+<div th:replace="header/navheader::navapalah"></div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"
+				 th:onclick="document.querySelector('.close').click()"
+				 role="alert">
+				[[${message}]]
+				<button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container mt-4">
+	<div class="col-md-12">
+	<div class="row">
+			<form th:action="@{/api/usrmgmnt/v1/menuheader/fbpsb/{page}/{sort}/{sortBy}?columnFirst={colFirst}
+					&valueFirst={valFirst}
+					 (page=0,
+						sort='asc',
+						sortBy=${sortBy},
+						colFirst=${columnFirst},
+						valFirst=${valueFirst})}"
+				  id="itemSizeForm">
+
+				<div class="row">
+					<div class="col">
+						<select name="columnFirst" th:value="${columnFirst}"
+								id="columnFirst" class="form-control">
+							<option value="" selected="selected" disabled hidden="hidden">---pilih kolom---</option>
+							<option
+									th:each="childArrays:${data.get('searchParam')}"
+									th:value="${childArrays.key}"
+									th:text="${childArrays.value}"
+									th:selected="${childArrays.key == columnFirst}"></option>
+						</select>
+					</div>
+					<div class="col">
+						<select form="itemSizeForm" name="sizeComponent" th:value="${data.get('numberOfElements')}"
+								onchange="changePageSize()" class="form-control"
+								id="sizeComponent">
+							<option value="" disabled>Item per page...</option>
+							<option th:each="s : ${ {5, 10, 15,20,25,30} }"
+									th:value="${s}"
+									th:text="${s}"
+									th:selected="${s == data.get('numberOfElements')}"></option>
+						</select>
+					</div>
+					<div class="col">
+						<div class="input-group">
+							<input id="valueFirst" type="text" name="valueFirst" th:value="${valueFirst}"
+								   class="form-control"
+								   placeholder="Masukkan Data">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-secondary">Search</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form><!-- end of form-->
+		</div>
+	</div>
+</div>
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-8">
+			<h3>Group Menu</h3>
+		</div>
+		<div class="col-md-4" style="display: flex; justify-content: end;">
+			<button type="button"
+					th:data-title="'Add GROUP'" onclick="funcHandler(event)"
+					th:data-url="'/api/usrmgmnt/v1/menuheader/new'"
+					class="btn btn-primary" data-toggle="modal" data-target="#addMenuHeader">
+				ADD GROUP
+			</button>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<th:block th:if="${#lists.size(data.get('content')) != 0}"/>
+			<table border="1" class = "table table-striped table-responsive-md">
+				<thead class="table-dark">
+				<tr>
+					<th style="text-align: center">
+						<a class="text-light" th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+																			+ ${currentPage}
+																			+ '/'
+																			+ (${#strings.equals(data.get('sort'),'asc')} ? 'desc' : 'asc')
+																			+ '/id?columnFirst='
+																			+ ${columnFirst}
+																			+ '&valueFirst='
+																			+ ${valueFirst}
+																			+ '&sizeComponent='
+																			+ ${sizeComponent}
+																			}"/>
+						ID</a>
+					</th>
+					<th style="text-align: center">
+							<a class="text-light" th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+																			+ ${currentPage}
+																			+ '/'
+																			+ (${#strings.equals(data.get('sort'),'asc')} ? 'desc' : 'asc')
+																			+ '/nama?columnFirst='
+																			+ ${columnFirst}
+																			+ '&valueFirst='
+																			+ ${valueFirst}
+																			+ '&sizeComponent='
+																			+ ${sizeComponent}
+																			}"/>
+							MENU HEADER</a>
+					</th>
+					<th style="text-align: center">
+						<a class="text-light" th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+																			+ ${currentPage}
+																			+ '/'
+																			+ (${#strings.equals(data.get('sort'),'asc')} ? 'desc' : 'asc')
+																			+ '/deskripsi?columnFirst='
+																			+ ${columnFirst}
+																			+ '&valueFirst='
+																			+ ${valueFirst}
+																			+ '&sizeComponent='
+																			+ ${sizeComponent}
+																			}"/>
+						DESKRIPSI</a>
+					</th>
+					<th colspan="2" style="text-align: center"> Actions </th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="childEntity : ${data.get('content')}">
+					<td style="text-align: center" th:text="${childEntity.idMenuHeader}"></td>
+					<td style="text-align: center" th:text="${childEntity.namaMenuHeader}"></td>
+					<td style="text-align: center" th:text="${childEntity.deskripsiMenuHeader}"></td>
+					<td style="text-align: center">
+						<button type="button"
+								th:data-title="'Edit Group'" onclick="funcHandler(event)"
+								th:data-url="'/api/usrmgmnt/v1/menuheader/edit/'+${childEntity.idMenuHeader}"
+								class="btn btn-primary" data-toggle="modal" data-target="#editMenuHeader">
+							Edit
+						</button>
+					</td>
+					<td style="text-align: center">
+						<a th:href="@{/api/usrmgmnt/v1/menuheadaer/delete/{id} (id=${childEntity.idMenuHeader})}" class="btn btn-danger">Delete</a><!-- UNTUK DELETE DENGAN METHOD GET -->
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div th:if = "${data.get('totalPages') > 1}">
+				<div class = "row">
+					<div class = "col-sm-2">
+						Total Rows: [[${data.get('totalItems')}]]
+					</div>
+					<div class = "col-sm-4">
+						<a th:if="${currentPage > 1}"
+						   th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+						   + '0/'
+							+ ${data.get('sort')}
+							+ '/'
+							+ ${sortBy}
+							+ '?columnFirst='
+							+ ${columnFirst}
+							+ '&valueFirst='
+							+ ${valueFirst}
+							+ '&sizeComponent='
+							+ ${sizeComponent}
+						   }">First</a>
+<!--						<span th:unless="${currentPage < data.get('totalPages')}">First</span>-->
+						<span th:unless="${currentPage > 1}">First</span>
+						<a th:if="${currentPage > 1}"
+						   th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+							+ ${currentPage - 1}
+							+ '/'
+							+ ${data.get('sort')}
+							+ '/'
+							+ ${sortBy}
+							+ '?columnFirst='
+							+ ${columnFirst}
+							+ '&valueFirst='
+							+ ${valueFirst}
+							+ '&sizeComponent='
+							+ ${sizeComponent}
+							}">|| Prev</a>
+<!--						<span th:unless="${currentPage < data.get('totalPages')}">|| Prev</span>-->
+						<span th:unless="${currentPage > 1}">|| Prev</span>
+					</div>
+					<div class = "col-sm-2">
+						<span th:each="i: ${#numbers.sequence(1, data.get('totalPages'))}">
+							<a th:if="${currentPage != i}" th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+							+ ${i}
+							+ '/'
+							+ ${data.get('sort')}
+							+ '/'
+							+ ${sortBy}
+							+ '?columnFirst='
+							+ ${columnFirst}
+							+ '&valueFirst='
+							+ ${valueFirst}
+							+ '&sizeComponent='
+							+ ${sizeComponent}
+							}">[[${i}]]</a>
+								<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+						</span>
+					</div>
+					<div class = "col-sm-4">
+						<a th:if="${currentPage < data.get('totalPages')}"
+						   th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+						   + ${currentPage + 1}
+						   + '/'
+							+ ${data.get('sort')}
+							+ '/'
+							+ ${sortBy}
+							+ '?columnFirst='
+							+ ${columnFirst}
+							+ '&valueFirst='
+							+ ${valueFirst}
+							+ '&sizeComponent='
+							+ ${sizeComponent}
+						   }">Next</a>
+						<span th:unless="${currentPage < data.get('totalPages')}">Next</span>
+						<a th:if="${currentPage < data.get('totalPages')}"
+						   th:href="@{'/api/usrmgmnt/v1/menuheader/fbpsb/'
+							+ ${data.get('totalPages')}
+							+ '/'
+							+ ${data.get('sort')}
+							+ '/'
+							+ ${sortBy}
+							+ '?columnFirst='
+							+ ${columnFirst}
+							+ '&valueFirst='
+							+ ${valueFirst}
+							+ '&sizeComponent='
+							+ ${sizeComponent}
+							}">|| Last</a>
+						<span th:unless="${currentPage < data.get('totalPages')}">|| Last</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block th:replace="modals :: modalz('addMenuHeader')">modal</th:block>
+<th:block th:replace="modals :: modalz('editMenuHeader')">modal</th:block>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script><!--wajib ada untuk modals-->
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script><!--wajib ada untuk modals-->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script><!--wajib ada untuk modals-->
+
+
+
+</body>
+</html>

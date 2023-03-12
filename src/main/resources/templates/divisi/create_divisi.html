@@ -1,0 +1,73 @@
+<form th:action="@{/api/usrmgmnt/v1/divisi/new}" th:object = "${divisi}" method="POST" id="buatDivisi"><!--	ID FORM TIDAK BOLEH SAMA DENGAN ID MODALS DI FRAGMENT -->
+	<input type="hidden" value="29ae60353c6fd341d2bc2022124ae8a9" /><!-- form generate id security of front end -->
+
+	<div th:if="${#fields.hasErrors('global')}" class="error-box error-danger" >
+		<p th:each="err : ${#fields.errors('global')}" th:text="${err}"  class="error"/>
+	</div>
+	<div class ="form-group">
+		<label> Nama Menu </label>
+		<input
+				type = "text"
+				name = "namaDivisi"
+				th:field = "*{namaDivisi}"
+				class = "form-control"
+				placeholder="Masukkan Nama Divisi"
+		/>
+		<ul>
+			<li th:each="err : ${#fields.errors('namaDivisi')}" th:text="${err}" class="error" />
+		</ul>
+	</div>
+
+	</div>
+	<div class ="form-group">
+		<label> Kode Divisi </label>
+		<input
+				type = "text"
+				name = "kodeDivisi"
+				th:field = "*{kodeDivisi}"
+				class = "form-control"
+				placeholder="Masukkan Kode Divisi"
+		/>
+		<ul>
+			<li th:each="err : ${#fields.errors('kodeDivisi')}" th:text="${err}" class="error" />
+		</ul>
+	</div>
+
+	<div class = "modal-footer">
+		<button type="submit" class = "btn btn-primary">
+			Submit
+		</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	</div>
+</form>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    $("#buatDivisi").submit(function(event) {
+          event.preventDefault(); //prevent default action
+          let post_url = $(this).attr("action"); //get form action url
+          let request_method = $(this).attr("method"); //get form GET/POST method
+          let form_data = $(this).serialize(); //Encode form elements for submission
+          $.ajax({
+              url: post_url,
+              type: request_method,
+              data: form_data
+            }).done(function(response) { //
+            let pattern = /29ae60353c6fd341d2bc2022124ae8a9/i;
+			let result = response.match(pattern);
+            if(result)
+            {
+				$("#server-results").html(response);
+            }
+            else
+            {
+				$('#addDivisi').modal('hide');
+				confirm("DATA BERHASIL DISIMPAN");
+            }
+
+            });
+        });
+
+/*]]>*/
+</script>
