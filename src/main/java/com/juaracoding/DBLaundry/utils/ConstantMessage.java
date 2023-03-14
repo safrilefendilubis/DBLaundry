@@ -164,6 +164,18 @@ public class ConstantMessage {
      */
     public final static String WARNING_PESANAN_NOT_EXISTS = "PESANAN TIDAK DOTEMUKAN";
 
+    /*
+    PENGELUARAN
+     */
+
+    public final static String WARNING_PENGELUARAN_NOT_EXISTS = "PENGELUARAN TIDAK DITEMUKAN";
+
+
+    /*
+    TIPE
+     */
+
+    public final static String WARNING_TIPE_NOT_EXISTS = "TIPE TIDAK DOTEMUKAN";
 
 
 }

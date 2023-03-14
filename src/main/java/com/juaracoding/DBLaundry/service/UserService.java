@@ -89,7 +89,7 @@ public class UserService {
                 new ExecuteSMTP().sendSMTPToken(emailForSMTP,"VERIFIKASI TOKEN REGISTRASI",
                         "TOKEN UNTUK VERIFIKASI EMAIL",String.valueOf(intVerification));
             }
-            System.out.println("VERIFIKASI -> "+intVerification);
+//            System.out.println("VERIFIKASI -> "+intVerification);
         }catch (Exception e)
         {
             strExceptionArr[1]="checkRegis(Userz userz) --- LINE 70";
