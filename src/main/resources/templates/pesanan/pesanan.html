@@ -93,7 +93,11 @@
 					class="btn btn-primary" data-toggle="modal" data-target="#addPesanan">
 				ADD PESANAN
 			</button>
-			<a th:href="@{/api/usrmgmnt/v1/pesanan/xportpdflibre}" class="btn btn-primary">Print</a>
+			<a th:href="@{/api/usrmgmnt/v1/pesanan/xportpdflibre?columnFirst={colFirst}
+					&valueFirst={valFirst}
+					 (
+					colFirst=${columnFirst},
+					valFirst=${valueFirst})}" class="btn btn-primary">Print</a>
 		</div>
 	</div>
 </div>

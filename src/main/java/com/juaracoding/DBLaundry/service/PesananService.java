@@ -381,7 +381,7 @@ public class PesananService {
 
         try
         {
-            if(columnFirst.equals("id") || columnFirst.equals(""))
+            if(columnFirst.equals("id"))
             {
                 try
                 {

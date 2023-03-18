@@ -29,6 +29,7 @@ public class PaketLayanan {
 
     @Column(name = "ModifiedDate")
     private Date modifiedDate;
+
     @Column(name = "ModifiedBy")
     private Integer modifiedBy;
 

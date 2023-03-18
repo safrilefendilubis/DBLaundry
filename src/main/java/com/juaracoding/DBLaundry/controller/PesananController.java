@@ -282,7 +282,7 @@ public class PesananController {
         String currentDateTime = dateFormat.format(new Date());
         String headerkey = "Content-Disposition";
         sBuild.setLength(0);
-        String headervalue = sBuild.append("attachment; filename=akseslist").
+        String headervalue = sBuild.append("attachment; filename=pesananlist").
                 append(currentDateTime).append(".pdf").toString();
         response.setHeader(headerkey, headervalue);
         generator = new PdfGeneratorLibre();
@@ -314,8 +314,9 @@ public class PesananController {
 
             strNamaPelanggan = listPesananDTO.get(i).getPelanggan() == null ? "-" : listPesananDTO.get(i).getPelanggan().getNamaLengkap();
             strLayanan = listPesananDTO.get(i).getPaketLayanan() == null ? "-" : listPesananDTO.get(i).getPaketLayanan().getNamaPaket();
-            strHargaPerkilo = listPesananDTO.get(i).getPaketLayanan() == null ? "-" : String.valueOf(listPesananDTO.get(i).getPaketLayanan().getHargaPerKilo());
-            strCaraBayar = listPesananDTO.get(i).getPaketLayanan() == null ? "-" : listPesananDTO.get(i).getPaketLayanan().getTipeLayanan();
+            strHargaPerkilo = listPesananDTO.get(i).getPaketLayanan() == null ? "-" : String.valueOf(listPesananDTO.get(i).getPaketLayanan().getHargaPerKilo().intValue());
+            strCaraBayar = listPesananDTO.get(i).getPembayaran() == null ? "-" : listPesananDTO.get(i).getPembayaran().getNamaPembayaran();
+            strPaket = listPesananDTO.get(i).getPaketLayanan() == null ? "-" : listPesananDTO.get(i).getPaketLayanan().getTipeLayanan();
             strBody[i][0] = String.valueOf(i);
             strBody[i][1] = String.valueOf(listPesananDTO.get(i).getIdPesanan());
             strBody[i][2] = strNamaPelanggan;
@@ -323,8 +324,8 @@ public class PesananController {
             strBody[i][4] = strPaket;
             strBody[i][5] = String.valueOf(listPesananDTO.get(i).getBerat());
             strBody[i][6] = strHargaPerkilo;
-            strBody[i][7] = strCaraBayar;
-            strBody[i][8] = String.valueOf(listPesananDTO.get(i).getTotalHarga());
+            strBody[i][7] = String.valueOf(Math.round(listPesananDTO.get(i).getTotalHarga()));
+            strBody[i][8] = strCaraBayar;
         }
 
         sBuild.setLength(0);

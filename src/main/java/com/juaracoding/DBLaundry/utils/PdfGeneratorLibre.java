@@ -33,23 +33,17 @@ public class PdfGeneratorLibre {
         try
         {
             Document document = new Document(PageSize.A4);
-
+            document.setPageSize(PageSize.A4.rotate());
             Rectangle footer = new Rectangle(30f, 30f, PageSize.A4.getRight(30f), 140f);
             footer.setBorder(Rectangle.BOX);
             footer.setBorderColor(Color.black);
             footer.setBorderWidth(2f);
 
-            Rectangle header = new Rectangle(30f, 30f, PageSize.A4.getRight(30f), 140f);
-            header.setBorder(Rectangle.BOX);
-            header.setBorderColor(Color.BLUE);
-            header.setBorderWidth(1f);
-            header.setTop(PageSize.A4.getTop(30f));
-            header.setBottom(PageSize.A4.getTop(180f));
-
             PdfWriter.getInstance(document, response.getOutputStream());
             document.open();
+
             Image image = Image.getInstance("https://i.ibb.co/wBPtZFj/logo.png");
-            image.scaleAbsolute(100f,100f);
+            image.scaleAbsolute(235f,70f);
             document.add(image);
 
             Font fontTiltle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
@@ -57,12 +51,12 @@ public class PdfGeneratorLibre {
             Paragraph paragraph = new Paragraph(strTitle, fontTiltle);
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(paragraph);
-            PdfPTable table = new PdfPTable(4);
+            PdfPTable table = new PdfPTable(9);
             table.setWidthPercentage(100f);
-            table.setWidths(new int[] {3,3,3,3});
+            table.setWidths(new int[] {1,1,2,2,2,2,2,2,2});
             table.setSpacingBefore(5);
             PdfPCell cell = new PdfPCell();
-            cell.setBackgroundColor(CMYKColor.LIGHT_GRAY);// INI DIGANTI BIAR GAK SAMA
+            cell.setBackgroundColor(CMYKColor.BLACK);// INI DIGANTI BIAR GAK SAMA
             cell.setPadding(5);
             Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
             font.setColor(CMYKColor.WHITE);
