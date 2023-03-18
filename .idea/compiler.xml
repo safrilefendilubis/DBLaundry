@@ -9,6 +9,9 @@
         <module name="_01JavaWeb" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="DBLaundry" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

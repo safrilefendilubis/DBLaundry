@@ -356,4 +356,58 @@ public class PesananService {
 
         return pesananRepo.findByIsDelete(pageable,(byte) 1);
     }
+
+    private List<Pesanan> getDataToExport(String paramColumn, String paramValue)
+    {
+        if(paramValue.equals(""))
+        {
+            return pesananRepo.findByIsDelete((byte) 1);
+        }
+        if(paramColumn.equals("id"))
+        {
+            return pesananRepo.findByIsDeleteAndIdPesanan((byte) 1,Long.parseLong(paramValue));
+        } else if (paramColumn.equals("nama")) {
+            return pesananRepo.findByIsDeleteAndPelangganNamaLengkapContainsIgnoreCase((byte) 1,paramValue);
+        }
+
+        return pesananRepo.findByIsDelete((byte) 1);
+    }
+
+    public List<PesananDTO> dataToExport(WebRequest request,String columnFirst,String valueFirst)
+    {
+        List<Pesanan> listPesanan = null;
+        List<PesananDTO> listPesananDTO = null;
+        Map<String,Object> mapResult = null;
+
+        try
+        {
+            if(columnFirst.equals("id") || columnFirst.equals(""))
+            {
+                try
+                {
+                    Long.parseLong(valueFirst);
+                }
+                catch (Exception e)
+                {
+                    strExceptionArr[1] = "dataToExport(WebRequest request,String columFirst,String valueFirst) --- LINE 209";
+                    LoggingFile.exceptionStringz(strExceptionArr, e, OtherConfig.getFlagLogging());
+                    return new ArrayList<PesananDTO>();
+                }
+            }
+            listPesanan = getDataToExport(columnFirst,valueFirst);
+            if(listPesanan.size()==0)
+            {
+                return new ArrayList<PesananDTO>();
+            }
+            listPesananDTO = modelMapper.map(listPesanan, new TypeToken<List<PesananDTO>>() {}.getType());
+        }
+
+        catch (Exception e)
+        {
+            strExceptionArr[1] = "dataToExport(WebRequest request,String columFirst,String valueFirst) --- LINE 243";
+            LoggingFile.exceptionStringz(strExceptionArr, e, OtherConfig.getFlagLogging());
+            return new ArrayList<PesananDTO>();
+        }
+        return listPesananDTO;
+    }
 }

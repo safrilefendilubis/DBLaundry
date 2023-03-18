@@ -12,4 +12,11 @@ public interface PesananRepo extends JpaRepository<Pesanan,Long> {
 
     List<Pesanan> findByIsDelete(byte byteIsDelete);
     Page<Pesanan> findByIsDeleteAndIdPesanan(Pageable page , byte byteIsDelete, Long values);
+
+
+    List<Pesanan> findByIsDeleteAndPelangganNamaLengkapContainsIgnoreCase(byte byteIsDelete, String values);
+    List<Pesanan> findByIsDeleteAndIdPesanan(byte byteIsDelete, Long values);
+
+
+
 }
